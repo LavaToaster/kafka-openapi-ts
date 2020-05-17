@@ -20,7 +20,10 @@ export enum UserEvents {
   UserUpdated = "UserUpdated",
 }
 
-export type UserCreatedEvent = EventPayload<UserEvents.UserCreated, UserWithoutId>;
+export type UserCreatedEvent = EventPayload<
+  UserEvents.UserCreated,
+  UserWithoutId
+>;
 export type UserUpdatedEvent = EventPayload<
   UserEvents.UserUpdated,
   Partial<UserWithoutId>
@@ -28,10 +31,11 @@ export type UserUpdatedEvent = EventPayload<
 
 export type UserEventPayloads = UserCreatedEvent | UserUpdatedEvent;
 
-export class UserEntity extends BaseEntity<User, UserEventPayloads> implements User {
-  public id: string = '';
-  public email: string = '';
-  public name: string = '';
+export class UserEntity extends BaseEntity<User, UserEventPayloads>
+  implements User {
+  public id: string = "";
+  public email: string = "";
+  public name: string = "";
   public phoneNumbers: string[] = [];
   public status?: Status;
 

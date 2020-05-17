@@ -11,6 +11,9 @@ export class App extends BaseApp {
       ...config,
     });
 
-    this.serviceCreators.push(() => new BaseHttpService(this), () => new UsersTopic(this));
+    this.serviceCreators.push(
+      () => new BaseHttpService(this),
+      () => new UsersTopic(this)
+    );
   }
 }

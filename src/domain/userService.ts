@@ -16,7 +16,6 @@ export class UsersService {
     this.eventRepository = new UserEventRepository();
   }
 
-
   public async get(id: string) {
     return this.eventRepository.findById(id);
   }
@@ -32,11 +31,11 @@ export class UsersService {
 
     await this.eventRepository.append([event]);
     await this.producer.send({
-      topic: 'users',
+      topic: "users",
       messages: [
         {
           value: JSON.stringify(event),
-        }
+        },
       ],
     });
 

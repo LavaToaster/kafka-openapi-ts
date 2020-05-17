@@ -4,6 +4,6 @@ import { EventRepository } from "../../lib/data/eventRepository";
 
 export class UserRepository extends CrudRepository<User> {}
 
-export class UserEventRepository extends EventRepository<UserEntity>((events) => new UserEntity(events)) {
-
-}
+export class UserEventRepository extends EventRepository<UserEntity>(
+  (events) => new UserEntity(events)
+) {}

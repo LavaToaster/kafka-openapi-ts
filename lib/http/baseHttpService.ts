@@ -38,7 +38,7 @@ export class BaseHttpService implements Service {
       })
     );
 
-    this.http.use(this.errorHandler)
+    this.http.use(this.errorHandler);
     this.http.use(bodyparser());
     this.http.use(cors());
     this.http.use(this.router.routes());
@@ -74,7 +74,6 @@ export class BaseHttpService implements Service {
     try {
       await next();
     } catch (error) {
-
       if (error.httpStatus) {
         ctx.status = error.httpStatus;
       }
@@ -83,7 +82,7 @@ export class BaseHttpService implements Service {
       //  if the error has it
       ctx.body = {
         error: {
-          message: error.message
+          message: error.message,
         },
       };
     }

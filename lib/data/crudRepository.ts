@@ -16,10 +16,11 @@ export class CrudRepository<D extends { [key: string]: any } = any> {
 
     this.collection = this.mongo.db().collection(collectionName);
   }
+
   public async findById(id: string) {
     const result = this.collection.findOne({ _id: id } as any);
 
-    if (! result) {
+    if (!result) {
       throw new EntityNotFoundError(this.entityName);
     }
 
@@ -34,9 +35,12 @@ export class CrudRepository<D extends { [key: string]: any } = any> {
   }
 
   public async updateOne(document: Partial<D>) {
-    return this.collection.updateOne({
-      _id: document.id
-    } as any, omit(document, "id"));
+    return this.collection.updateOne(
+      {
+        _id: document.id,
+      } as any,
+      omit(document, "id")
+    );
   }
 
   public async deleteById(id: string) {

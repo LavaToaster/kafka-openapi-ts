@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Path, Post, Route, SuccessResponse, } from "tsoa";
+import {
+  Body,
+  Controller,
+  Get,
+  Path,
+  Post,
+  Route,
+  SuccessResponse,
+} from "tsoa";
 import { User } from "../../domain/user";
 import { UserCreationParams, UsersService } from "../../domain/userService";
 
@@ -12,9 +20,7 @@ export class UsersController extends Controller {
   }
 
   @Get("{userId}")
-  public async getUser(
-    @Path() userId: string,
-  ): Promise<User | null> {
+  public async getUser(@Path() userId: string): Promise<User | null> {
     return this.service.get(userId);
   }
 

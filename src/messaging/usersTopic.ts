@@ -25,7 +25,7 @@ export class UsersTopic implements Service {
     await this.consumer.connect();
     await this.consumer.subscribe({ topic: "users", fromBeginning: true });
     await this.consumer.run({
-      eachMessage: this.listenForEvents.bind(this)
+      eachMessage: this.listenForEvents.bind(this),
     });
   }
 

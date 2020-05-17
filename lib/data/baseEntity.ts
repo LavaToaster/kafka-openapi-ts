@@ -16,11 +16,13 @@ export function HandleEvent(eventName: string) {
     const object: any = target.constructor;
 
     if (!object.eventMapping) {
-      object.eventMapping = {}
+      object.eventMapping = {};
     }
 
     if (object.eventMapping[eventName]) {
-      console.error(`Received duplicated event mapping on ${object.name} for event "${eventName}"`);
+      console.error(
+        `Received duplicated event mapping on ${object.name} for event "${eventName}"`
+      );
       process.exit(1);
     }
 
