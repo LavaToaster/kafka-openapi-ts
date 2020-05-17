@@ -1,5 +1,4 @@
 import { BaseEntity, EventPayload, HandleEvent } from "../../lib";
-import { merge } from 'lodash';
 
 export enum Status {
   Happy = "Happy",
