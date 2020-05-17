@@ -18,7 +18,8 @@
     "importHelpers": true,
     "types": ["node"],
     "outDir": "build",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "forceConsistentCasingInFileNames": true
   },
   "include": ["src", "lib"]
 }

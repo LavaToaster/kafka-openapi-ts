@@ -1,6 +1,6 @@
 import { RunMode, Service } from "../service";
 import Koa from "koa";
-import { BaseApp } from "../base-app";
+import { BaseApp } from "../baseApp";
 import { LogLevel } from "../logger";
 import Router from "@koa/router";
 import bodyparser from "koa-bodyparser"
