@@ -28,20 +28,21 @@ export function HandleEvent(eventName: string) {
   };
 }
 
-export class BaseEntity<E, P extends EventPayload<any, any>> {
-  protected app: BaseApp;
-  protected _data?: E;
-  public readonly events: P[] = [];
+export class BaseEntity<D, P extends EventPayload<any, any>> {
+  #app: BaseApp;
+  #events: P[] = [];
 
   constructor(events?: P[]) {
-    this.app = BaseApp.instance;
+    this.#app = BaseApp.instance;
 
     for (let event of events || []) {
       this.apply(event);
     }
   }
 
-  get data() { return this._data };
+  public get events() {
+    return this.#events;
+  }
 
   public apply(event: P) {
     // @ts-ignore
@@ -49,7 +50,7 @@ export class BaseEntity<E, P extends EventPayload<any, any>> {
     const functionName = eventMapping[event.eventName];
 
     if (!functionName) {
-      this.app.logger.log({
+      this.#app.logger.log({
         level: LogLevel.Error,
         message: `Unknown event "${event.eventName}" received`,
         ...event,
@@ -61,7 +62,7 @@ export class BaseEntity<E, P extends EventPayload<any, any>> {
     // @ts-ignore
     this[functionName](event);
 
-    this.events.push(event);
+    this.#events.push(event);
 
     return this;
   }

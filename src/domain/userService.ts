@@ -40,7 +40,6 @@ export class UsersService {
       ],
     });
 
-    const user = new UserEntity([event]);
-    return user.data!;
+    return new UserEntity([event]);
   }
 }
