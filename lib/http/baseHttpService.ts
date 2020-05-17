@@ -25,15 +25,6 @@ export class BaseHttpService implements Service {
 
   protected configureMiddleware() {
     this.app.config.http.registerRoutes!(this.router);
-
-    this.http.use(bodyparser());
-    this.http.use(cors());
-    this.http.use(this.router.routes());
-    this.http.use(this.router.allowedMethods());
-    this.http.use(koaHelmet());
-  }
-
-  public async run() {
     this.router.get("/openapi.json", (ctx) => {
       ctx.body = this.app.config.http.openApiSpec;
     });
@@ -47,6 +38,15 @@ export class BaseHttpService implements Service {
       })
     );
 
+    this.http.use(this.errorHandler)
+    this.http.use(bodyparser());
+    this.http.use(cors());
+    this.http.use(this.router.routes());
+    this.http.use(this.router.allowedMethods());
+    this.http.use(koaHelmet());
+  }
+
+  public async run() {
     if (!this.app.config.http.registerRoutes) {
       this.app.logger.log({
         level: LogLevel.Error,
@@ -68,5 +68,24 @@ export class BaseHttpService implements Service {
       level: LogLevel.Info,
       message: `Http server started on ${host}:${port}`,
     });
+  }
+
+  public async errorHandler(ctx: Koa.Context, next: Koa.Next) {
+    try {
+      await next();
+    } catch (error) {
+
+      if (error.httpStatus) {
+        ctx.status = error.httpStatus;
+      }
+
+      // TODO: Expand this out a bit more, add better information
+      //  if the error has it
+      ctx.body = {
+        error: {
+          message: error.message
+        },
+      };
+    }
   }
 }

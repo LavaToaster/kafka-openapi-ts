@@ -15,7 +15,7 @@ export class UsersController extends Controller {
   public async getUser(
     @Path() userId: string,
   ): Promise<User | null> {
-    return await this.service.get(userId);
+    return this.service.get(userId);
   }
 
   @SuccessResponse("201", "Created") // Custom success response
