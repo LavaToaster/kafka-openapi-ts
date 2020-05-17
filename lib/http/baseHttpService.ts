@@ -3,7 +3,7 @@ import Koa from "koa";
 import { BaseApp } from "../baseApp";
 import { LogLevel } from "../logger";
 import Router from "@koa/router";
-import bodyparser from "koa-bodyparser"
+import bodyparser from "koa-bodyparser";
 import cors from "@koa/cors";
 import koaSwagger from "koa2-swagger-ui";
 import koaHelmet from "koa-helmet";

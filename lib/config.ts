@@ -5,6 +5,7 @@ import type { KafkaConfig } from "kafkajs";
 import type { Options as KoaCorsOptions } from "@koa/cors";
 import type bodyParser from "koa-bodyparser";
 import type { IHelmetConfiguration } from "helmet";
+import type { MongoClientOptions } from "mongodb";
 
 export type LogFormat = "json" | "pretty";
 
@@ -20,10 +21,14 @@ export interface AppConfig {
     openApiSpec?: any;
 
     middleware?: {
-      cors?: KoaCorsOptions,
-      bodyParser?: bodyParser.Options,
-      helmet?: IHelmetConfiguration,
-    }
+      cors?: KoaCorsOptions;
+      bodyParser?: bodyParser.Options;
+      helmet?: IHelmetConfiguration;
+    };
+  };
+  mongo: {
+    uri: string;
+    options?: MongoClientOptions;
   };
 }
 
@@ -42,5 +47,8 @@ export const defaultConfig: AppConfig = {
     clientId: process.env.KAFKA_CLIENT_ID,
     brokers: (process.env.KAFKA_BROKERS || "").split(","),
     logLevel: logLevelToKafkaJs(logLevel),
+  },
+  mongo: {
+    uri: process.env.MONGO_URI ?? "",
   },
 };

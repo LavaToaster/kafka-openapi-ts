@@ -17,7 +17,7 @@ const models: TsoaRoute.Models = {
   "User": {
     "dataType": "refObject",
     "properties": {
-      "id": { "dataType": "double", "required": true },
+      "id": { "dataType": "string", "required": true },
       "email": { "dataType": "string", "required": true },
       "name": { "dataType": "string", "required": true },
       "status": { "ref": "Status" },
@@ -26,19 +26,20 @@ const models: TsoaRoute.Models = {
     "additionalProperties": false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-  "Pick_User.Exclude_keyofUser.id__": {
+  "Pick_User.SetDifference_keyofUser.id__": {
     "dataType": "refAlias",
     "type": { "dataType": "nestedObjectLiteral", "nestedProperties": { "email": { "dataType": "string", "required": true }, "name": { "dataType": "string", "required": true }, "status": { "ref": "Status" }, "phoneNumbers": { "dataType": "array", "array": { "dataType": "string" }, "required": true } }, "validators": {} },
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
-  "Omit_User.id_": {
-    "dataType": "refAlias",
-    "type": { "ref": "Pick_User.Exclude_keyofUser.id__", "validators": {} },
-  },
-  // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
   "UserCreationParams": {
-    "dataType": "refAlias",
-    "type": { "ref": "Omit_User.id_", "validators": {} },
+    "dataType": "refObject",
+    "properties": {
+      "email": { "dataType": "string", "required": true },
+      "name": { "dataType": "string", "required": true },
+      "status": { "ref": "Status" },
+      "phoneNumbers": { "dataType": "array", "array": { "dataType": "string" }, "required": true },
+    },
+    "additionalProperties": false,
   },
   // WARNING: This file was auto-generated with tsoa. Please do not modify it. Re-run tsoa to re-generate this file: https://github.com/lukeautry/tsoa
 };
@@ -54,8 +55,7 @@ export function RegisterRoutes(router: KoaRouter) {
   router.get('/users/:userId',
     async (context: any, next: any) => {
       const args = {
-        userId: { "in": "path", "name": "userId", "required": true, "dataType": "double" },
-        name: { "in": "query", "name": "name", "dataType": "string" },
+        userId: { "in": "path", "name": "userId", "required": true, "dataType": "string" },
       };
 
       let validatedArgs: any[] = [];

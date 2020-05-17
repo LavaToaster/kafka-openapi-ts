@@ -1,36 +1,35 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Path,
-  Post,
-  Query,
-  Route,
-  SuccessResponse,
-} from "tsoa";
-import { User } from "../../domain/models/user";
-import {
-  UsersService,
-  UserCreationParams,
-} from "../../domain/services/userService";
+import { Body, Controller, Get, Path, Post, Route, SuccessResponse, } from "tsoa";
+import { User } from "../../domain/user";
+import { UserCreationParams, UsersService } from "../../domain/userService";
 
 @Route("users")
 export class UsersController extends Controller {
+  private service: UsersService;
+
+  constructor() {
+    super();
+    this.service = new UsersService();
+  }
+
   @Get("{userId}")
   public async getUser(
-    @Path() userId: number,
-    @Query() name?: string
-  ): Promise<User> {
-    return new UsersService().get(userId, name);
+    @Path() userId: string,
+  ): Promise<User | null> {
+    const user = await this.service.get(userId);
+
+    if (! user || user.data) {
+      throw new Error()
+    }
+
+    return user.data || null;
   }
 
   @SuccessResponse("201", "Created") // Custom success response
   @Post()
   public async createUser(
     @Body() requestBody: UserCreationParams
-  ): Promise<void> {
+  ): Promise<User> {
     this.setStatus(201); // set return status 201
-    new UsersService().create(requestBody);
-    return;
+    return this.service.create(requestBody);
   }
 }

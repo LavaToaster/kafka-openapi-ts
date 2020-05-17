@@ -1,0 +1,14 @@
+diff --git a/node_modules/@types/mongodb/index.d.ts b/node_modules/@types/mongodb/index.d.ts
+index 1ca7230..f10d8e2 100644
+--- a/node_modules/@types/mongodb/index.d.ts
++++ b/node_modules/@types/mongodb/index.d.ts
+@@ -43,9 +43,6 @@ import { EventEmitter } from 'events';
+ import { Readable, Writable } from 'stream';
+ import { checkServerIdentity } from 'tls';
+ 
+-// We can use TypeScript Omit once minimum required TypeScript Version is above 3.5
+-type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+-
+ type FlattenIfArray<T> = T extends Array<infer R> ? R : T;
+ 
+ export function connect(uri: string, options?: MongoClientOptions): Promise<MongoClient>;

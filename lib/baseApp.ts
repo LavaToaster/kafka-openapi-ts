@@ -5,6 +5,7 @@ import { Logger } from "winston";
 import { RunMode, Service } from "./service";
 import { merge, omit } from "lodash";
 import { DeepPartial } from "utility-types";
+import { MongoClient } from "mongodb";
 
 export abstract class BaseApp {
   private static _instance: BaseApp;
@@ -15,9 +16,11 @@ export abstract class BaseApp {
   readonly config: AppConfig;
   readonly logger: Logger;
   readonly kafka: Kafka;
+  readonly mongo: MongoClient;
 
   private booted = false;
 
+  protected serviceCreators: Array<() => Service> = [];
   protected services: Service[] = [];
 
   constructor(config: DeepPartial<AppConfig> = {}) {
@@ -45,16 +48,36 @@ export abstract class BaseApp {
         };
       },
     });
+
+    this.mongo = new MongoClient(
+      this.config.mongo.uri,
+      this.config.mongo.options
+    );
   }
 
   public async boot() {
     this.logger.log({
       level: LogLevel.Info,
-      message: "Booting BaseApp",
-      ...omit(this.config, 'http.openApiSpec'),
+      message: "Booting App",
+      ...omit(this.config, "http.openApiSpec"),
     });
 
-    for (let service of this.services) {
+    this.logger.log({
+      level: LogLevel.Info,
+      message: `Connecting to Mongo`,
+    });
+
+    await this.mongo.connect();
+
+    this.logger.log({
+      level: LogLevel.Info,
+      message: `Connected to Mongo`,
+    });
+
+    for (let serviceCreator of this.serviceCreators) {
+      const service = serviceCreator();
+      this.services.push(service);
+
       if (!service.boot) {
         continue;
       }
@@ -65,9 +88,9 @@ export abstract class BaseApp {
         level: LogLevel.Info,
         message: `Booting ${name}`,
       });
-    }
 
-    // Setup Mongo?
+      await service.boot();
+    }
 
     this.booted = true;
   }
@@ -79,7 +102,7 @@ export abstract class BaseApp {
       if (!service.run) {
         this.logger.log({
           level: LogLevel.Debug,
-          message: `SKipping ${name} - no run`,
+          message: `Skipping ${name} - no run`,
         });
         continue;
       }
@@ -106,7 +129,7 @@ export abstract class BaseApp {
 
     this.logger.log({
       level: LogLevel.Info,
-      message: "Running BaseApp",
+      message: "App is now ready",
     });
   }
 

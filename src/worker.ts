@@ -3,6 +3,7 @@ import { RunMode } from "../lib";
 
 async function main() {
   const app = new App();
+
   await app.boot();
   await app.run(RunMode.Worker);
 }

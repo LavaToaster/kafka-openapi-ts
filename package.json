@@ -1,12 +1,18 @@
 {
   "name": "test-api",
   "scripts": {
+    "postinstall": "patch-package",
     "prettier:fix": "prettier 'lib/**/*.ts' 'src/**/*.ts' --write",
-    "dev": "concurrently 'tsc -w --preserveWatchOutput' 'nodemon' 'nodemon -x tsoa spec-and-routes'"
+    "start:http": "node build/src",
+    "start:worker": "node build/src",
+    "dev": "concurrently 'tsc -w --preserveWatchOutput --pretty' 'nodemon' 'nodemon -x tsoa spec-and-routes'",
+    "watch": "concurrently 'tsc -w --preserveWatchOutput --pretty' 'nodemon -x tsoa spec-and-routes'"
   },
   "dependencies": {
     "@koa/cors": "^3.0.0",
     "@koa/router": "^8.0.8",
+    "@types/mongodb": "^3.5.17",
+    "change-case": "^4.1.1",
     "dotenv-flow": "^3.1.0",
     "kafkajs": "^1.12.0",
     "koa": "^2.11.0",
@@ -14,11 +20,16 @@
     "koa-helmet": "^5.2.0",
     "koa2-swagger-ui": "^3.0.0",
     "lodash": "^4.17.15",
+    "mongodb": "^3.5.7",
+    "patch-package": "^6.2.2",
+    "pluralize": "^8.0.0",
+    "postinstall-postinstall": "^2.1.0",
     "reflect-metadata": "^0.1.13",
     "source-map-support": "^0.5.19",
     "tslib": "^2.0.0",
     "tsoa": "^3.0.8",
     "utility-types": "^3.10.0",
+    "uuid": "^8.0.0",
     "winston": "^3.2.1"
   },
   "devDependencies": {
@@ -31,7 +42,9 @@
     "@types/koa__router": "^8.0.2",
     "@types/lodash": "^4.14.151",
     "@types/node": "^14.0.1",
+    "@types/pluralize": "^0.0.29",
     "@types/source-map-support": "^0.5.1",
+    "@types/uuid": "^7.0.3",
     "concurrently": "^5.2.0",
     "nodemon": "^2.0.4",
     "prettier": "^2.0.5",

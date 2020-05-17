@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import "source-map-support/register";
 import { AppConfig, BaseApp, BaseHttpService } from "../lib";
-import { TestTopic } from "./messaging/testTopic";
+import { UsersTopic } from "./messaging/usersTopic";
 import { DeepPartial } from "utility-types";
 
 export class App extends BaseApp {
@@ -11,6 +11,6 @@ export class App extends BaseApp {
       ...config,
     });
 
-    this.services.push(new BaseHttpService(this), new TestTopic(this));
+    this.serviceCreators.push(() => new BaseHttpService(this), () => new UsersTopic(this));
   }
 }
