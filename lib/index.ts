@@ -1,4 +1,4 @@
 export * from "./baseApp";
 export * from "./config";
 export * from "./service";
-export * from "./http/baseHttpKernel";
+export * from "./http/baseHttpService";

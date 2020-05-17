@@ -8,7 +8,7 @@ import cors from "@koa/cors";
 import koaSwagger from "koa2-swagger-ui";
 import koaHelmet from "koa-helmet";
 
-export class BaseHttpKernel implements Service {
+export class BaseHttpService implements Service {
   protected app: BaseApp;
   protected http: Koa;
   protected router: Router;
