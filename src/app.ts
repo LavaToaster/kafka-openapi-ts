@@ -1,16 +1,16 @@
 import "reflect-metadata";
 import "source-map-support/register";
-import { AppConfig, BaseApp } from "../lib";
+import { AppConfig, BaseApp, BaseHttpKernel } from "../lib";
 import { TestTopic } from "./messaging/test-topic";
-import { HttpKernel } from "./http/http-kernel";
+import { DeepPartial } from "utility-types";
 
 export class App extends BaseApp {
-  constructor(config: Partial<AppConfig> = {}) {
+  constructor(config: DeepPartial<AppConfig> = {}) {
     super({
       appName: "test-api",
       ...config,
     });
 
-    this.services.push(new HttpKernel(this), new TestTopic(this));
+    this.services.push(new BaseHttpKernel(this), new TestTopic(this));
   }
 }

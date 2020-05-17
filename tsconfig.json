@@ -17,7 +17,7 @@
     "declaration": true,
     "importHelpers": true,
     "types": ["node"],
-    "outDir": "dist",
+    "outDir": "build",
     "baseUrl": "."
   },
   "include": ["src", "lib"]

@@ -1,0 +1,5 @@
+{
+  "exec": "node build/src",
+  "watch": ["build"],
+  "ext": "js"
+}

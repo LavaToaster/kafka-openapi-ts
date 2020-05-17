@@ -1,6 +1,10 @@
 import "dotenv-flow/config";
-import { KafkaConfig } from "kafkajs";
 import { LogLevel, logLevelToKafkaJs } from "./logger";
+import type Router from "@koa/router";
+import type { KafkaConfig } from "kafkajs";
+import type { Options as KoaCorsOptions } from "@koa/cors";
+import type bodyParser from "koa-bodyparser";
+import type { IHelmetConfiguration } from "helmet";
 
 export type LogFormat = "json" | "pretty";
 
@@ -12,6 +16,14 @@ export interface AppConfig {
   http: {
     host: string;
     port: number;
+    registerRoutes?(router: Router): void;
+    openApiSpec?: any;
+
+    middleware?: {
+      cors?: KoaCorsOptions,
+      bodyParser?: bodyParser.Options,
+      helmet?: IHelmetConfiguration,
+    }
   };
 }
 

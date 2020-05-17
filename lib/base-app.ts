@@ -3,7 +3,8 @@ import { Kafka } from "kafkajs";
 import { createLogger, kafkaJsToLogLevel, LogLevel } from "./logger";
 import { Logger } from "winston";
 import { RunMode, Service } from "./service";
-import { merge } from "lodash";
+import { merge, omit } from "lodash";
+import { DeepPartial } from "utility-types";
 
 export abstract class BaseApp {
   private static _instance: BaseApp;
@@ -19,7 +20,7 @@ export abstract class BaseApp {
 
   protected services: Service[] = [];
 
-  constructor(config: Partial<AppConfig> = {}) {
+  constructor(config: DeepPartial<AppConfig> = {}) {
     if (BaseApp._instance) {
       throw new Error(
         "More that one application was attempted to be instantiated"
@@ -50,7 +51,7 @@ export abstract class BaseApp {
     this.logger.log({
       level: LogLevel.Info,
       message: "Booting BaseApp",
-      ...this.config,
+      ...omit(this.config, 'http.openApiSpec'),
     });
 
     for (let service of this.services) {
